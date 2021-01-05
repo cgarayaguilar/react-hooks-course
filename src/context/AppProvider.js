@@ -1,7 +1,7 @@
 import React from 'react'
 import useInitialState from '../hooks/useInitialState'
 
-const AppContext = React.createContext({})
+export const AppContext = React.createContext({})
 
 const AppProvider = ({ children }) => {
   const initialState = useInitialState()
