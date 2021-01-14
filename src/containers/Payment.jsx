@@ -1,13 +1,25 @@
 import React, { useContext } from 'react'
 import '../styles/components/Payment.css'
 import { AppContext } from '../context/AppProvider'
-import { PaypalButton } from 'react-paypal-button'
 import { useHistory } from 'react-router-dom'
+import { PayPalButton } from 'react-paypal-button'
 
 const Payment = () => {
-  const { state } = useContext(AppContext)
-  const { cart, buyer, addNewOrder } = state
+  const { state, addNewOrder } = useContext(AppContext)
+  const { cart, buyer } = state
   const history = useHistory()
+
+  const paypalOtions = {
+    clientId:
+      'ARMSqtIgQWZqkW8HyQYf-JQWUD_-jQv7G6u_Cm_FN0SdiWKaRcUb3k3xw3LCFeoX1EO1c4-hMbN5kRJP',
+    intent: 'capture',
+    currency: 'USD',
+  }
+
+  const buttonStyles = {
+    layout: 'vertical',
+    shape: 'rect',
+  }
 
   const handlePaymentSuccess = data => {
     console.log(data)
@@ -19,7 +31,7 @@ const Payment = () => {
       }
 
       addNewOrder(newOrder)
-      history.pushState('/checkout/success')
+      history.push('/checkout/success')
     }
   }
 
@@ -30,17 +42,6 @@ const Payment = () => {
     const sum = cart.reduce(reducer, 0)
 
     return sum
-  }
-
-  const paypalOptions = {
-    clientId: '',
-    intent: 'capture',
-    currency: 'USD',
-  }
-
-  const buttonStyles = {
-    layout: 'vertical',
-    shape: 'rect',
   }
 
   return (
@@ -56,11 +57,11 @@ const Payment = () => {
           </div>
         ))}
         <div className="Payment-button">
-          <PaypalButton
-            paypalOptions={paypalOptions}
+          <PayPalButton
+            paypalOptions={paypalOtions}
             buttonStyles={buttonStyles}
             amount={handleSumTotal()}
-            onPaymentStart={() => console.log('Start payment')}
+            onPaymentStart={() => console.log('Start Payment')}
             onPaymentSuccess={data => handlePaymentSuccess(data)}
             onPaymentError={error => console.log(error)}
             onPaymentCancel={data => console.log(data)}
@@ -70,4 +71,5 @@ const Payment = () => {
     </div>
   )
 }
+
 export default Payment

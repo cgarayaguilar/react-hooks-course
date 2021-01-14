@@ -10,7 +10,8 @@ const Information = () => {
   const { cart } = state
   const history = useHistory()
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault()
     const formData = new FormData(form.current)
     const buyer = {
       name: formData.get('name'),
@@ -26,7 +27,7 @@ const Information = () => {
 
     addToBuyer(buyer)
 
-    history.push('checkout/payment')
+    history.push('/checkout/payment')
   }
 
   return (
@@ -35,8 +36,8 @@ const Information = () => {
         <div className="Information-head">
           <h2>Informacion de contacto</h2>
         </div>
-        <div className="Information-form">
-          <form ref={form}>
+        <form ref={form} onSubmit={handleSubmit}>
+          <div className="Information-form">
             <input type="text" placeholder="Nombre completo" name="name" />
             <input type="email" placeholder="Correo electronico" name="apto" />
             <input type="text" placeholder="Direccion" name="address" />
@@ -46,16 +47,16 @@ const Information = () => {
             <input type="text" placeholder="Estado" name="state" />
             <input type="text" placeholder="Codigo postal" name="cp" />
             <input type="tel" placeholder="Telefono" name="phone" />
-          </form>
-        </div>
-        <div className="Information-buttons">
-          <div className="Information-back">
-            <Link to="/checkout">Regresar</Link>
           </div>
-          <div className="Information-next">
-            <button onClick={handleSubmit}>Pagar</button>
+          <div className="Information-buttons">
+            <div className="Information-back">
+              <Link to="/checkout">Regresar</Link>
+            </div>
+            <div className="Information-next">
+              <button type="submit">Pagar</button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
 
       <div className="Information-sidebar">
